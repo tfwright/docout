@@ -1,6 +1,10 @@
 defmodule Docout.Formatters.OpenApiSpex do
   @moduledoc """
     Process docs in OpenApiSpex format. Requires OpenApiSpex dep.
+
+    Configure the base path for the api:
+
+    `config :docout, Docout.Formatters.OpenApiSpex, base_path: "/api/v1"`
   """
 
   def format(docs) do
