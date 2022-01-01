@@ -12,6 +12,9 @@ defmodule Docout.Formatters.OpenApiSpex do
     ```
   """
 
+  @behaviour Docout.Formatter
+
+  @impl true
   def format(docs) do
     paths =
       docs
