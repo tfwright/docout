@@ -12,7 +12,8 @@ defmodule Docout.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      source_url: "https://github.com/tfwright/docout"
+      source_url: "https://github.com/tfwright/docout",
+      xref: [exclude: [OpenApiSpex.Paths, Jason]]
     ]
   end
 
