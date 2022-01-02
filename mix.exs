@@ -29,7 +29,7 @@ defmodule Docout.MixProject do
 
   def description do
     """
-    Build documentation from your existing Elixir app docs at compile time.
+    Generate documentation files from your existing Elixir app docs at compile time.
     """
   end
 

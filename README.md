@@ -1,6 +1,6 @@
 # Docout
 
-Build documentation from your existing Elixir app docs at compile time.
+Generate documentation files from your existing Elixir app docs at compile time.
 
 ## Installation
 
