@@ -19,7 +19,7 @@ defmodule Docout.Formatters.OpenApiSpex do
     paths =
       docs
       |> Enum.flat_map(fn {mod, _func_docs} ->
-         Application.fetch_env!(:docout, Docout.Formatters.OpenApiSpex)[:router].__routes__()
+        Application.fetch_env!(:docout, Docout.Formatters.OpenApiSpex)[:router].__routes__()
         |> Enum.filter(&(mod == &1.plug))
       end)
       |> OpenApiSpex.Paths.from_routes()

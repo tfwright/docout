@@ -5,7 +5,7 @@ defmodule Docout do
     Docs for all functions in the module will be passed to configured formatters for processing.
 
     defmodule SomeModule do
-      use Docout
+      @moduledoc docout: true
 
       @doc "these docs will be passed to formatter"
       @doc meta: "this too"
@@ -13,27 +13,16 @@ defmodule Docout do
     end
   """
 
-  defmacro __using__(opts) do
-    quote do
-      Module.register_attribute(__MODULE__, :_docout_config, persist: true)
-      Module.put_attribute(__MODULE__, :_docout_config, unquote(opts))
-    end
-  end
-
   def process(modules) do
     docs =
       modules
       |> Enum.flat_map(fn mod ->
-        mod.__info__(:attributes)
-        |> Keyword.get(:_docout_config)
-        |> case do
-          nil ->
-            []
+        {:docs_v1, _anno, _lang, _format, _mod_docs, mod_meta, func_docs} = Code.fetch_docs(mod)
 
-          _config ->
-            {:docs_v1, _anno, _lang, _format, _module_doc, _mod_meta, func_docs} = Code.fetch_docs(mod)
-
-            [{mod, func_docs}]
+        if Map.get(mod_meta, :docout, false) do
+          [{mod, func_docs}]
+        else
+          []
         end
       end)
 

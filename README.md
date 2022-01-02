@@ -25,4 +25,4 @@ Note: currently only the OpenApiSpex formatter is included. Use your own formatt
 ## Usage
 
 * Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content).
-* Add `use Docout` to any module to include its function docs in the list sent to formatters.
+* Add `@moduledoc docout: true` to any module to include its function docs in the list sent to formatters.
