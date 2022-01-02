@@ -16,7 +16,7 @@ Add `{:docout, github: "tfwright/docout", branch: "main", runtime: false}` to yo
 
 ## Configuration
 
-Add the following to your app's **runtime** config:
+Add the following to your app's **compile time** config (`config.exs`):
 
 ```
 config :docout,
