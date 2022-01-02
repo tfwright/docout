@@ -6,7 +6,7 @@ defmodule Docout.MixProject do
       app: :docout,
       name: "Docout",
       version: "0.1.0",
-      elixir: "~> 1.13",
+      elixir: "~> 1.0",
       start_permanent: Mix.env() == :prod,
       build_embedded: Mix.env() == :prod,
       description: description(),
