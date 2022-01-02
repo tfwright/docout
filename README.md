@@ -7,7 +7,7 @@ Build documentation from your existing Elixir app docs at compile time.
 ```elixir
 def deps do
   [
-    {:docout, github: "tfwright/docout", branch: "main"}
+    {:docout, github: "tfwright/docout", branch: "main", runtime: false}
   ]
 end
 ```
