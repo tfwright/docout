@@ -1,6 +1,6 @@
 # Docout
 
-Generate documentation files from your existing Elixir app docs at compile time.
+Use one or more formatters to parse function docs and meta and use the data to generate files like API specifications, onboarding guides, etc. Files will be automatically updated every time the app compiles, so you just need to save changes once.
 
 ## Installation
 
