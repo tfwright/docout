@@ -13,7 +13,8 @@ defmodule Docout.MixProject do
       package: package(),
       deps: deps(),
       source_url: "https://github.com/tfwright/docout",
-      xref: [exclude: [OpenApiSpex.Paths, Jason]]
+      xref: [exclude: [OpenApiSpex.Paths, Jason]],
+      compilers: Mix.compilers() ++ compilers()
     ]
   end
 
@@ -39,5 +40,13 @@ defmodule Docout.MixProject do
     [
       {:ex_doc, "~> 0.14", only: :dev, runtime: false}
     ]
+  end
+
+  defp compilers do
+    if System.get_env("DOCOUT_SELF") == "t" do
+      [:docout]
+    else
+      []
+    end
   end
 end

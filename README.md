@@ -24,7 +24,11 @@ config :docout,
   formatters: [Docout.Formatters.OpenApiSpex]
 ```
 
-*Note: currently only the OpenApiSpex formatter is included. Use your own formatter by creating a module that implements the `format/1` function that accepts a list of docs and returns the contents for the file to be written.*
+Use your own formatter by creating a module that implements the `format/1` function that accepts a list of docs and returns the contents for the file to be written.
+
+All formatters can be configured with `output_path` to specific the directory and name for the resulting file. By default they will be written to `/docs/[underscored module name]`
+
+*Note: Docout itself has been configured to use the `Docout.Formatters.Demo` formatter to generate [docs/demo.md](docs/demo.md).*
 
 ## Usage
 

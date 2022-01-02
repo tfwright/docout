@@ -12,7 +12,16 @@ defmodule Docout do
       def some_func, do: :ok
     end
   """
+  @moduledoc docout: true
 
+
+  @doc """
+  Extracts func docs from a list of modules and passes them to configured formatters.
+  """
+  @doc args: [
+    modules: "list of modules to extract docs from, if configured to use docout"
+  ]
+  @doc returns: "`:ok`"
   def process(modules) do
     docs =
       modules
@@ -29,10 +38,15 @@ defmodule Docout do
     :docout
     |> Application.get_env(:formatters, [])
     |> Enum.each(fn mod ->
-      "docs"
-      |> Path.join(build_filename(mod))
-      |> Mix.Generator.create_file(mod.format(docs), force: true)
+      Mix.Generator.create_file(build_path(mod), mod.format(docs), force: true)
     end)
+  end
+
+  defp build_path(mod) do
+    case Application.get_env(:docout, mod)[:output_path] do
+      nil -> Path.join("docs", build_filename(mod))
+      path -> path
+    end
   end
 
   defp build_filename(mod) do
