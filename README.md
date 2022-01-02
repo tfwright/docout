@@ -1,6 +1,12 @@
 # Docout
 
-Use one or more formatters to parse function docs and meta and use the data to generate files like API specifications, onboarding guides, etc. Files will be automatically updated every time the app compiles, so you just need to save changes once.
+Docout is a multi-purpose documentation tool. Use one or more formatters to parse function docs and meta and use the data to generate files like API specifications, onboarding guides, etc. Files will be automatically updated every time the app compiles, so you just need to save changes once.
+
+The following were the main goals and inspiration for this library:
+
+* Run during compilation phase (like [PhoenixSwagger](https://github.com/xerions/phoenix_swagger))
+* Use native Elixir doc API (like [OpenApiSpex Controller syntax](https://github.com/open-api-spex/open_api_spex/blob/master/lib/open_api_spex/controller.ex))
+* Support multiple output formats (like [Bureaucrat](https://github.com/api-hogs/bureaucrat))
 
 ## Installation
 
