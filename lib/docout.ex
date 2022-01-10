@@ -23,22 +23,20 @@ defmodule Docout do
   ]
   @doc returns: "`:ok`"
   def process(modules) do
-    docs =
-      modules
-      |> Enum.flat_map(fn mod ->
+    :docout
+    |> Application.get_env(:formatters, [])
+    |> Enum.each(fn formatter ->
+      docs = Enum.flat_map(modules, fn mod ->
         {:docs_v1, _anno, _lang, _format, _mod_docs, mod_meta, func_docs} = Code.fetch_docs(mod)
 
-        if Map.get(mod_meta, :docout, false) do
+        if formatter_match?(mod_meta, formatter) do
           [{mod, func_docs}]
         else
           []
         end
       end)
 
-    :docout
-    |> Application.get_env(:formatters, [])
-    |> Enum.each(fn mod ->
-      Mix.Generator.create_file(build_path(mod), mod.format(docs), force: true)
+      Mix.Generator.create_file(build_path(formatter), formatter.format(docs), force: true)
     end)
   end
 
@@ -56,4 +54,8 @@ defmodule Docout do
     |> List.last()
     |> Macro.underscore()
   end
+
+  defp formatter_match?(%{docout: true}, _formatter), do: true
+  defp formatter_match?(%{docout: formatters}, formatter), do: Enum.member?(formatters, formatter)
+  defp formatter_match?(_, _), do: false
 end
