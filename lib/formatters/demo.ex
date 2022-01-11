@@ -4,21 +4,25 @@ defmodule Docout.Formatters.Demo do
   @impl true
   def format(doc_list) do
     doc_list
-    |> Enum.reduce("# Docout sample doc\n", fn {mod, docs}, output ->
+    |> Enum.reduce("# Docout sample doc\n", fn {_mod_docs, %{module: mod}, func_docs}, output ->
       output = output <> "## #{mod}\n"
-      Enum.reduce(docs, output, fn {{_, name, arity}, _, _, %{"en" => desc}, %{args: args, returns: returns}}, output ->
-        output <> """
-          ### #{name}/#{arity}
 
-          *#{String.trim(desc)}*
+      Enum.reduce(func_docs, output, fn {{_, name, arity}, %{"en" => desc},
+                                         %{args: args, returns: returns}},
+                                        output ->
+        output <>
+          """
+            ### #{name}/#{arity}
 
-          Args:
+            *#{String.trim(desc)}*
 
-          #{Enum.map_join(args, "\n", fn {name, desc} -> "* #{name}: #{desc}" end)}
+            Args:
+
+            #{Enum.map_join(args, "\n", fn {name, desc} -> "* #{name}: #{desc}" end)}
 
 
-          Returns: #{returns}
-        """
+            Returns: #{returns}
+          """
       end)
     end)
   end

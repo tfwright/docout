@@ -10,6 +10,15 @@ defmodule Docout.Formatters.OpenApiSpex do
                     router: MyAppWeb.Router,
                     spec: MyAppWeb.SpecModule
     ```
+
+    In each module you want to process, you need to store the module name in the meta:
+
+    ```
+    defmodule SomeModule do
+      @moduledoc docout: [Docout.Formatters.OpenApiSpex]
+      @moduledoc module: __MODULE__
+    end
+    ```
   """
 
   @behaviour Docout.Formatter
@@ -18,7 +27,7 @@ defmodule Docout.Formatters.OpenApiSpex do
   def format(docs) do
     paths =
       docs
-      |> Enum.flat_map(fn {mod, _func_docs} ->
+      |> Enum.flat_map(fn {_mod_docs, %{module: mod}, _func_docs} ->
         Application.fetch_env!(:docout, Docout.Formatters.OpenApiSpex)[:router].__routes__()
         |> Enum.filter(&(mod == &1.plug))
       end)
