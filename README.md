@@ -46,3 +46,21 @@ All formatters can be configured with `output_path` to specific the directory an
   end
   ```
 </details>
+
+<details>
+<summary>Only compile in specific environments</summary>
+
+  ```
+  # mix.exs
+  def project do
+    # ...
+    compilers: Mix.compilers() ++ compilers(Mix.env())
+    # ...
+  end
+
+  # ...
+
+  defp compilers(:dev) do: true
+  defp compilers(_), do: false  
+  ```
+</details>
