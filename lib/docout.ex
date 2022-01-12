@@ -13,32 +13,37 @@ defmodule Docout do
     end
   """
   @moduledoc docout: true
-
+  @moduledoc module: __MODULE__
 
   @doc """
   Extracts func docs from a list of modules and passes them to configured formatters.
   """
   @doc args: [
-    modules: "list of modules to extract docs from, if configured to use docout"
-  ]
+         modules: "list of modules to extract docs from, if configured to use docout"
+       ]
   @doc returns: "`:ok`"
   def process(modules) do
-    docs =
-      modules
-      |> Enum.flat_map(fn mod ->
-        {:docs_v1, _anno, _lang, _format, _mod_docs, mod_meta, func_docs} = Code.fetch_docs(mod)
-
-        if Map.get(mod_meta, :docout, false) do
-          [{mod, func_docs}]
-        else
-          []
-        end
-      end)
-
     :docout
     |> Application.get_env(:formatters, [])
-    |> Enum.each(fn mod ->
-      Mix.Generator.create_file(build_path(mod), mod.format(docs), force: true)
+    |> Enum.each(fn formatter ->
+      docs =
+        Enum.flat_map(modules, fn mod ->
+          {:docs_v1, _anno, _lang, _format, mod_docs, mod_meta, func_docs} = Code.fetch_docs(mod)
+
+          if formatter_match?(mod_meta, formatter) do
+            docout_docs =
+              Enum.flat_map(func_docs, fn
+                {def, _, _, heredoc, meta} -> [{def, heredoc, meta}]
+                _ -> []
+              end)
+
+            [{mod_docs, mod_meta, docout_docs}]
+          else
+            []
+          end
+        end)
+
+      Mix.Generator.create_file(build_path(formatter), formatter.format(docs), force: true)
     end)
   end
 
@@ -56,4 +61,8 @@ defmodule Docout do
     |> List.last()
     |> Macro.underscore()
   end
+
+  defp formatter_match?(%{docout: true}, _formatter), do: true
+  defp formatter_match?(%{docout: formatters}, formatter), do: Enum.member?(formatters, formatter)
+  defp formatter_match?(_, _), do: false
 end
