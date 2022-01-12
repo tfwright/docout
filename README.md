@@ -30,7 +30,19 @@ All formatters can be configured with `output_path` to specific the directory an
 
 *Note: Docout itself has been configured to use the `Docout.Formatters.Demo` formatter to generate [docs/demo.md](docs/demo.md).*
 
-## Usage
+## Minimal setup
 
 * Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content)
 * Add `docout: true` to any [module's metadata](https://hexdocs.pm/elixir/writing-documentation.html#documentation-metadata) to include its function docs in the list sent to formatters
+
+## Advanced usage:
+
+<details>
+<summary>Select which formatters should process a module</summary>
+
+  ```
+  defmodule MyModule do
+    @moduledoc docout: [XFormatter, YFormatter]
+  end
+  ```
+</details>
