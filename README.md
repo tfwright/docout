@@ -24,7 +24,7 @@ config :docout,
   formatters: [YourFormatter]
 ```
 
-Use your own formatter by creating a module that implements the `format/1` function that accepts the parsed content (see [below](#advanced-usage)) and returns the contents for the file to be written.
+Use your own formatter by creating a module that implements the `format/1` function that accepts the parsed content and returns the contents for the file to be written. You can also specify the parser if the default implementation doesn't work for your needs (see [below](#advanced-usage)): `parser: YourParser`
 
 All formatters can be configured with `output_path` to specific the directory and name for the resulting file. By default they will be written to `/docs/[underscored module name]`
 
