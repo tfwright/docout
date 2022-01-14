@@ -13,15 +13,15 @@ defmodule Docout.MixProject do
       package: package(),
       deps: deps(),
       source_url: "https://github.com/tfwright/docout",
-      xref: [exclude: [OpenApiSpex.Paths, Jason]],
-      compilers: Mix.compilers() ++ compilers()
+      compilers: Mix.compilers() ++ compilers(),
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
   def package do
     [
       name: "docout",
-      files: ~w(lib priv .formatter.exs mix.exs README* readme* LICENSE*
+      files: ~w(demo lib priv .formatter.exs mix.exs README* readme* LICENSE*
               license* CHANGELOG* changelog* src),
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/tfwright/docout"}
@@ -49,4 +49,7 @@ defmodule Docout.MixProject do
       []
     end
   end
+
+  defp elixirc_paths(:dev), do: ["lib", "demo"]
+  defp elixirc_paths(_), do: ["lib"]
 end

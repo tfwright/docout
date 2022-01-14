@@ -13,7 +13,8 @@ defmodule Docout do
     end
   """
   @moduledoc docout: true
-  @moduledoc module: __MODULE__
+
+  @behaviour __MODULE__.Parser
 
   @doc """
   Extracts func docs from a list of modules and passes them to configured formatters.
@@ -28,16 +29,12 @@ defmodule Docout do
     |> Enum.each(fn formatter ->
       docs =
         Enum.flat_map(modules, fn mod ->
-          {:docs_v1, _anno, _lang, _format, mod_docs, mod_meta, func_docs} = Code.fetch_docs(mod)
+          docs = {:docs_v1, _, _, _, _, mod_meta, _} = Code.fetch_docs(mod)
 
           if formatter_match?(mod_meta, formatter) do
-            docout_docs =
-              Enum.flat_map(func_docs, fn
-                {def, _, _, heredoc, meta} -> [{def, heredoc, meta}]
-                _ -> []
-              end)
-
-            [{mod_docs, mod_meta, docout_docs}]
+            :docout
+            |> Application.get_env(:parser, __MODULE__)
+            |> apply(:parse, [mod, docs])
           else
             []
           end
@@ -45,6 +42,17 @@ defmodule Docout do
 
       Mix.Generator.create_file(build_path(formatter), formatter.format(docs), force: true)
     end)
+  end
+
+  @impl true
+  def parse(mod, {_, _, _, _, mod_doc, mod_meta, func_docs}) do
+    formatted_docs =
+      Enum.flat_map(func_docs, fn
+        {def, _, _, heredoc, meta} -> [{def, heredoc, meta}]
+        _ -> []
+      end)
+
+    [{mod, mod_doc, mod_meta, formatted_docs}]
   end
 
   defp build_path(mod) do

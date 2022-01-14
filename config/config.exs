@@ -2,6 +2,6 @@ import Config
 
 config :docout,
   app_name: :docout,
-  formatters: [Docout.Formatters.Demo]
+  formatters: [Docout.Demo.Formatter]
 
-config :docout, Docout.Formatters.Demo, output_path: "docs/demo.md"
+config :docout, Docout.Demo.Formatter, output_path: "docs/demo.md"

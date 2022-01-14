@@ -21,21 +21,21 @@ Add the following to your app's **compile time** config (`config.exs`):
 ```
 config :docout,
   app_name: :your_app,
-  formatters: [Docout.Formatters.OpenApiSpex]
+  formatters: [YourFormatter]
 ```
 
-Use your own formatter by creating a module that implements the `format/1` function that accepts a list of docs and returns the contents for the file to be written.
+Use your own formatter by creating a module that implements the `format/1` function that accepts the parsed content (see [below](Advanced usage)) and returns the contents for the file to be written.
 
 All formatters can be configured with `output_path` to specific the directory and name for the resulting file. By default they will be written to `/docs/[underscored module name]`
 
-*Note: Docout itself has been configured to use the `Docout.Formatters.Demo` formatter to generate [docs/demo.md](docs/demo.md).*
+*Note: Docout itself has been configured to use the `Docout.Demo.Formatter` formatter to generate [docs/demo.md](docs/demo.md).*
 
 ## Minimal setup
 
 * Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content)
 * Add `docout: true` to any [module's metadata](https://hexdocs.pm/elixir/writing-documentation.html#documentation-metadata) to include its function docs in the list sent to formatters
 
-## Advanced usage:
+## Advanced usage
 
 <details>
 <summary>Select which formatters should process a module</summary>
@@ -44,6 +44,23 @@ All formatters can be configured with `output_path` to specific the directory an
   defmodule MyModule do
     @moduledoc docout: [XFormatter, YFormatter]
   end
+  ```
+</details>
+
+<details>
+<summary>Customize parsing</summary>
+
+  ```
+  # mix.exs
+  def YourApp.DocParser do
+    def parse(mod, docs) do
+      # whatever you want
+    end
+  end
+
+  # config.exs
+
+  config :docout, parser: YourApp.Parser
   ```
 </details>
 
