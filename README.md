@@ -28,7 +28,7 @@ Use your own formatter by creating a module that implements the `format/1` funct
 
 All formatters can be configured with `output_path` to specific the directory and name for the resulting file. By default they will be written to `/docs/[underscored module name]`
 
-*Note: Docout itself has been configured to use the `Docout.Demo.Formatter` formatter to generate [docs/demo.md](docs/demo.md).*
+*Note: Docout itself has been configured to use the [Docout.Demo.Formatter](demo/formatter.ex) formatter to generate [docs/demo.md](docs/demo.md).*
 
 ## Minimal setup
 
