@@ -1,6 +1,6 @@
 # Docout
 
-Docout is a multi-purpose documentation tool. Use one or more formatters to parse function docs and meta and use the data to generate files like API specifications, onboarding guides, etc. Files will be automatically updated every time the app compiles, so you just need to save changes once.
+Docout is a multi-purpose documentation tool. Parse function docs and meta and implement one or more formatters to use the data to generate files like API specifications, onboarding guides, etc. Files will be automatically updated every time the app compiles, so you just need to save changes once.
 
 The following were the main goals and inspiration for this library:
 
