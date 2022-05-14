@@ -77,7 +77,7 @@ All formatters can be configured with `output_path` to specific the directory an
 
   # ...
 
-  defp compilers(:dev), do: true
-  defp compilers(_), do: false  
+  defp compilers(:dev), do: [:docout]
+  defp compilers(_), do: []  
   ```
 </details>
