@@ -71,17 +71,13 @@ That's it! Now when your app compiles, `Docout` will write a file with the outpu
 <details>
 <summary>Customize parsing</summary>
 
+  In order to simplify formatting logic, you might want to change how Docout preprocesses the docs for a module. Set the value of the `parse_function` option to any 2 arity function reference to be invoked instead of `Docout.parse/2`
+
   ```
-  # mix.exs
-  def YourApp.DocParser do
-    def parse(mod, docs) do
-      # whatever you want
-    end
+  defmodule MyDocFormatter do
+    # this formatter doesn't care about the module being documented
+    use Docout, parse_function: fn mod, docs -> docs end
   end
-
-  # config.exs
-
-  config :docout, parser: YourApp.Parser
   ```
 </details>
 

@@ -15,14 +15,16 @@ defmodule Docout do
   @moduledoc docout: true
 
   defmacro __using__(opts) do
+    parse_function = opts[:parse_function] || (&Docout.parse/2)
+
     quote do
       @behaviour Docout.Formatter
 
       def output_path(), do: unquote(opts[:output_path])
+
+      def parse_function(), do: unquote(parse_function)
     end
   end
-
-  @behaviour __MODULE__.Parser
 
   @doc """
   Extracts func docs from a list of modules and passes them to configured formatters.
@@ -40,9 +42,9 @@ defmodule Docout do
           docs = {:docs_v1, _, _, _, _, mod_meta, _} = Code.fetch_docs(mod)
 
           if formatter_match?(mod_meta, formatter) do
-            :docout
-            |> Application.get_env(:parser, __MODULE__)
-            |> apply(:parse, [mod, docs])
+            func = apply(formatter, :parse_function, [])
+
+            func.(mod, docs)
           else
             []
           end
@@ -52,7 +54,6 @@ defmodule Docout do
     end)
   end
 
-  @impl true
   def parse(mod, {_, _, _, _, mod_doc, mod_meta, func_docs}) do
     formatted_docs =
       Enum.flat_map(func_docs, fn
