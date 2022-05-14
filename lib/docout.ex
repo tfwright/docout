@@ -14,6 +14,14 @@ defmodule Docout do
   """
   @moduledoc docout: true
 
+  defmacro __using__(opts) do
+    quote do
+      @behaviour Docout.Formatter
+
+      def output_path(), do: unquote(opts[:output_path])
+    end
+  end
+
   @behaviour __MODULE__.Parser
 
   @doc """
@@ -56,7 +64,9 @@ defmodule Docout do
   end
 
   defp build_path(mod) do
-    case Application.get_env(:docout, mod)[:output_path] do
+    mod
+    |> apply(:output_path, [])
+    |> case do
       nil -> Path.join("docs", build_filename(mod))
       path -> path
     end

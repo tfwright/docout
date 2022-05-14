@@ -1,5 +1,5 @@
 defmodule Docout.Demo.Formatter do
-  @behaviour Docout.Formatter
+  use Docout, output_path: "docs/demo.md"
 
   @impl true
   def format(doc_list) do

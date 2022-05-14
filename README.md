@@ -12,32 +12,51 @@ For more information about the rationale behind the project, or to contact me ab
 
 ## Installation
 
-Add `{:docout, github: "tfwright/docout", branch: "main", runtime: false}` to your app's `deps`
+1. Add `{:docout, github: "tfwright/docout", branch: "main", runtime: false}` to your app's `deps`
 
-*Note: The `runtime` option is not required, but since docout is not used at runtime it is recommended.*
+2. Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content)
 
-## Configuration
+## Basic usage
 
-Add the following to your app's **compile time** config (`config.exs`):
+1. Add a module that uses Docout and implements the `format/1` function:
 
-```
-config :docout,
-  app_name: :your_app,
-  formatters: [YourFormatter]
-```
+  ```
+  defmodule MyDocFormatter do
+    use Docout
 
-Use your own formatter by creating a module that implements the `format/1` function that accepts the parsed content and returns the contents for the file to be written. You can also specify the parser if the default implementation doesn't work for your needs (see [below](#advanced-usage)): `parser: YourParser`
+    def format(_doc_list) do
+      """
+      My docs!
+      """
+    end
+  ```
 
-All formatters can be configured with `output_path` to specific the directory and name for the resulting file. By default they will be written to `/docs/[underscored module name]`
+2. Add the following to your app's **compile time** config (`config.exs`):
+
+  ```
+  config :docout,
+    app_name: :your_app,
+    formatters: [MyDocFormatter]
+  ```
+
+3. Add `docout: true` to any [module's metadata](https://hexdocs.pm/elixir/writing-documentation.html#documentation-metadata) to include its function docs in the list passed to the format function.
+
+That's it! Now when your app compiles, `Docout` will write a file with the output of your formatter to `/docs/[underscored module name]`.
 
 *Note: Docout itself has been configured to use the [Docout.Demo.Formatter](demo/formatter.ex) formatter to generate [docs/demo.md](docs/demo.md).*
 
-## Minimal setup
-
-* Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content)
-* Add `docout: true` to any [module's metadata](https://hexdocs.pm/elixir/writing-documentation.html#documentation-metadata) to include its function docs in the list sent to formatters
-
 ## Advanced usage
+
+<details>
+<summary>Configure where the doc file is written</summary>
+  ```
+  defmodule MyDocFormatter do
+    use Docout, output_path: "other_dir/mydocs.html"
+  end
+  ```
+
+  `output_path` should be a path relative to your app's root
+</details>
 
 <details>
 <summary>Select which formatters should process a module</summary>
