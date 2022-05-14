@@ -8,6 +8,8 @@ The following were the main goals and inspiration for this library:
 * Use native Elixir doc API (like [OpenApiSpex Controller syntax](https://github.com/open-api-spex/open_api_spex/blob/master/lib/open_api_spex/controller.ex))
 * Support multiple output formats (like [Bureaucrat](https://github.com/api-hogs/bureaucrat))
 
+For more information about the rationale behind the project, or to contact me about the project, see https://elixirforum.com/t/docout-flexible-documentation-generator/45227
+
 ## Installation
 
 Add `{:docout, github: "tfwright/docout", branch: "main", runtime: false}` to your app's `deps`
