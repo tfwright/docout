@@ -7,8 +7,6 @@ defmodule Mix.Tasks.Compile.Docout do
 
     :ok = Application.ensure_loaded(app_name)
 
-    :application.get_key(app_name)
-
     {:ok, modules} = :application.get_key(app_name, :modules)
     |> IO.inspect(label: "loaded modules")
 
