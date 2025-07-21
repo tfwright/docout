@@ -10,11 +10,11 @@ The following were the main goals and inspiration for this library:
 
 For more information about the rationale behind the project, or to contact me about the project, see https://elixirforum.com/t/docout-flexible-documentation-generator/45227
 
+*Note: Docout itself has been configured to use the [Docout.Demo.Formatter](demo/formatter.ex) formatter to generate [docs/demo.md](docs/demo.md).*
+
 ## Installation
 
 1. Add `{:docout, github: "tfwright/docout", branch: "main", runtime: false}` to your app's `deps`
-
-2. Add `:docout` to your app's [compiler list](https://hexdocs.pm/mix/1.12/Mix.Tasks.Compile.html#content)
 
 ## Basic usage
 
@@ -43,12 +43,17 @@ For more information about the rationale behind the project, or to contact me ab
 
 That's it! Now when your app compiles, `Docout` will write a file with the output of your formatter to `/docs/[underscored module name]`.
 
-*Note: Docout itself has been configured to use the [Docout.Demo.Formatter](demo/formatter.ex) formatter to generate [docs/demo.md](docs/demo.md).*
+4. Generate docs!
+
+```
+mix compile.docout
+```
 
 ## Advanced usage
 
 <details>
 <summary>Configure where the doc file is written</summary>
+
   ```
   defmodule MyDocFormatter do
     use Docout, output_path: "other_dir/mydocs.html"
@@ -82,7 +87,7 @@ That's it! Now when your app compiles, `Docout` will write a file with the outpu
 </details>
 
 <details>
-<summary>Only compile in specific environments</summary>
+<summary>Automatically compile during development</summary>
 
   ```
   # mix.exs
@@ -95,6 +100,6 @@ That's it! Now when your app compiles, `Docout` will write a file with the outpu
   # ...
 
   defp compilers(:dev), do: [:docout]
-  defp compilers(_), do: []  
+  defp compilers(_), do: []
   ```
 </details>
