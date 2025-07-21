@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Compile.Docout do
     :application.get_key(app_name)
 
     {:ok, modules} = :application.get_key(app_name, :modules)
-    |> IO.inspect(label: "loaded application")
+    |> IO.inspect(label: "loaded modules")
 
     Docout.process(modules)
 
