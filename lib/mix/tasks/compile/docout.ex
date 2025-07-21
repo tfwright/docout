@@ -4,6 +4,7 @@ defmodule Mix.Tasks.Compile.Docout do
 
   def run(_args) do
     app_name = Application.fetch_env!(:docout, :app_name)
+    |> IO.inspect(label: "app name")
 
     :ok = Application.ensure_loaded(app_name)
 
